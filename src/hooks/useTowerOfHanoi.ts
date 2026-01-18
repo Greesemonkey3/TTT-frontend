@@ -32,6 +32,7 @@ export const useTowerOfHanoi = (numberOfDisks: number): UseTowerOfHanoiReturn =>
   const [isAutoSolving, setIsAutoSolving] = useState<boolean>(false);
   const [isSolved, setIsSolved] = useState<boolean>(false);
 
+  // @ts-ignore
   const autoSolveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const solutionRef = useRef<SolutionResponse | null>(null);
   const onCompleteRef = useRef<(() => void) | null>(null);
