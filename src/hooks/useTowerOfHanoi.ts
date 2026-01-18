@@ -15,10 +15,9 @@ interface UseTowerOfHanoiReturn {
   reset: (numberOfDisks: number) => void;
   setSolution: (solution: SolutionResponse | null) => void;
   startAutoSolve: (solution: SolutionResponse, onComplete: () => void) => void;
-  stopAutoSolve: () => void;
 }
 
-export const useTowerOfHanoi = (_numberOfDisks: number): UseTowerOfHanoiReturn => {
+export const useTowerOfHanoi = (): UseTowerOfHanoiReturn => {
   const [pegs, setPegs] = useState<{ A: number[]; B: number[]; C: number[] }>({
     A: [],
     B: [],
@@ -200,15 +199,6 @@ export const useTowerOfHanoi = (_numberOfDisks: number): UseTowerOfHanoiReturn =
     return true;
   }, [pegs, selectedDisk, selectedPeg]);
 
-  const stopAutoSolve = useCallback(() => {
-    setIsAutoSolving(false);
-    isAutoSolvingRef.current = false;
-    if (autoSolveTimeoutRef.current) {
-      clearTimeout(autoSolveTimeoutRef.current);
-      autoSolveTimeoutRef.current = null;
-    }
-  }, []);
-
   const executeAutoSolveStep = useCallback(() => {
     if (!solutionRef.current || !isAutoSolvingRef.current) return;
 
@@ -327,6 +317,5 @@ export const useTowerOfHanoi = (_numberOfDisks: number): UseTowerOfHanoiReturn =
     reset,
     setSolution: setSolutionRef,
     startAutoSolve,
-    stopAutoSolve,
   };
 };

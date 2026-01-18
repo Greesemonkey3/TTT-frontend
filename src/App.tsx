@@ -67,7 +67,7 @@ function App() {
     reset,
     setSolution: setSolutionRef,
     startAutoSolve,
-  } = useTowerOfHanoi(numberOfDisks);
+  } = useTowerOfHanoi();
 
   useEffect(() => {
     if (isSolved && solution && 'steps' in solution) {

@@ -13,5 +13,6 @@ const api = axios.create({
 export const solveTowerOfHanoi = async (numberOfDisks: number): Promise<Solution> => {
   const endpoint = API_BASE_URL.includes('localhost') ? '/dev/solve' : '/solve';
   const response = await api.post<Solution>(endpoint, { numberOfDisks });
+  console.log('response', response);
   return response.data;
 };
