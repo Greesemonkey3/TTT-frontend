@@ -86,7 +86,6 @@ export const StepsDisplay = ({
           {steps.map((step) => {
             const isCurrent = step.stepNumber === currentStep;
             const isCompleted = completedSteps.has(step.stepNumber);
-            const isPending = !isCurrent && !isCompleted;
 
             return (
               <div

@@ -35,10 +35,8 @@ interface DiskProps {
   diskNumber: number;
   peg: Peg;
   index: number;
-  totalDisksOnPeg: number;
   isSelected: boolean;
   targetPeg: Peg | null;
-  targetPegDisks: number[];
   numberOfDisks: number;
   pegX: number;
   targetPegX: number | null;
@@ -49,10 +47,8 @@ const Disk = ({
   diskNumber,
   peg,
   index,
-  totalDisksOnPeg,
   isSelected,
   targetPeg,
-  targetPegDisks,
   numberOfDisks,
   pegX,
   targetPegX,
@@ -232,7 +228,7 @@ export const AnimationCanvas = ({
           })}
 
           {/* Disks */}
-          {allDisks.map(({ diskNumber, peg, index, totalDisksOnPeg }) => {
+          {allDisks.map(({ diskNumber, peg, index }) => {
             const isThisDiskSelected = selectedDisk === diskNumber && selectedPeg === peg;
             return (
               <Disk
@@ -240,10 +236,8 @@ export const AnimationCanvas = ({
                 diskNumber={diskNumber}
                 peg={peg}
                 index={index}
-                totalDisksOnPeg={totalDisksOnPeg}
                 isSelected={isThisDiskSelected}
                 targetPeg={isThisDiskSelected ? targetPeg : null}
-                targetPegDisks={targetPeg ? pegs[targetPeg] : []}
                 numberOfDisks={numberOfDisks}
                 pegX={pegPositions[peg]}
                 targetPegX={targetPeg ? pegPositions[targetPeg] : null}

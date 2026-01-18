@@ -80,7 +80,7 @@ function App() {
         return Math.random() * (max - min) + min;
       };
 
-      const interval: NodeJS.Timeout = setInterval(() => {
+      const interval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -273,14 +273,14 @@ function App() {
                 className="flex-1 flex justify-center lg:justify-start min-h-0 overflow-auto lg:overflow-hidden"
               >
                 {numberOfDisks <= 10 ? (
-                  <AnimationCanvas
-                    pegs={pegs}
-                    selectedDisk={selectedDisk}
-                    selectedPeg={selectedPeg}
-                    targetPeg={targetPeg}
-                    onPegClick={handlePegClick}
-                    numberOfDisks={numberOfDisks}
-                  />
+                <AnimationCanvas
+                  pegs={pegs}
+                  selectedDisk={selectedDisk}
+                  selectedPeg={selectedPeg}
+                  targetPeg={targetPeg}
+                  onPegClick={handlePegClick}
+                  numberOfDisks={numberOfDisks}
+                />
                 ) : solution ? (
                   <div className="w-full h-full flex items-center justify-center">
                     <div className="bg-white rounded-lg shadow-lg-top p-8 text-center flex flex-col justify-center">

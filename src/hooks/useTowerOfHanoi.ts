@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { Peg, Step, Solution, SolutionResponse } from '../types';
+import { Peg, SolutionResponse } from '../types';
 
 interface UseTowerOfHanoiReturn {
   pegs: { A: number[]; B: number[]; C: number[] };
@@ -18,7 +18,7 @@ interface UseTowerOfHanoiReturn {
   stopAutoSolve: () => void;
 }
 
-export const useTowerOfHanoi = (numberOfDisks: number): UseTowerOfHanoiReturn => {
+export const useTowerOfHanoi = (_numberOfDisks: number): UseTowerOfHanoiReturn => {
   const [pegs, setPegs] = useState<{ A: number[]; B: number[]; C: number[] }>({
     A: [],
     B: [],
@@ -119,7 +119,6 @@ export const useTowerOfHanoi = (numberOfDisks: number): UseTowerOfHanoiReturn =>
     }
 
     const targetPegDisks = pegs[peg];
-    const sourcePegDisks = pegs[selectedPeg];
 
     // Validation: Cannot place larger disk on smaller disk
     if (targetPegDisks.length > 0) {
