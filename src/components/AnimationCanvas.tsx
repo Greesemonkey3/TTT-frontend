@@ -170,7 +170,6 @@ export const AnimationCanvas = ({
 
   return (
     <div className="w-full h-full flex flex-col min-h-0">
-      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 mb-2 sm:mb-4 flex-shrink-0">Game Board</h3>
       <div className="flex-1 flex justify-center overflow-auto items-center min-h-0 p-1 sm:p-2">
         <svg
           width={canvasWidth}

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { StepsDisplay } from './components/StepsDisplay';
 import { AnimationCanvas } from './components/AnimationCanvas';
+import { InvalidMoveModal } from './components/InvalidMoveModal';
 import { useTowerOfHanoi } from './hooks/useTowerOfHanoi';
 import { solveTowerOfHanoi } from './utils/api';
 import { Solution, SolutionResponse } from './types';
@@ -51,6 +52,8 @@ function App() {
   const [solution, setSolution] = useState<Solution | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [showInvalidMoveModal, setShowInvalidMoveModal] = useState<boolean>(false);
+  const [invalidMoveMessage, setInvalidMoveMessage] = useState<string>('');
   const gameboardRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -133,14 +136,15 @@ function App() {
       if (isAutoSolving) return;
 
       if (selectedPeg === null) {
-        // No disk selected, try to select one
         selectDisk(peg);
+      } else if (selectedPeg === peg) {
+        placeDisk(peg);
       } else {
-        // Disk selected, try to place it
         const isValid = placeDisk(peg);
         if (!isValid) {
           // Show error message for invalid move
-          alert('Invalid move! You can only move the top disk, and cannot place a larger disk on a smaller one.');
+          setInvalidMoveMessage('You can only move the top disk, and cannot place a larger disk on a smaller one.');
+          setShowInvalidMoveModal(true);
         }
       }
     },
@@ -197,7 +201,6 @@ function App() {
           Tim's Tower Trial
         </h1>
 
-        {/* Main Container: Input section + Gameboard on left, Steps on right */}
         <style>{`
           @media (min-width: 1024px) {
             .main-game-container {
@@ -254,7 +257,7 @@ function App() {
                         e.currentTarget.style.backgroundColor = 'rgb(0, 106, 255)';
                       }}
                     >
-                      {isLoading ? 'Generating...' : 'Generate Solution'}
+                      {isLoading ? 'Generating...' : 'Generate'}
                     </button>
                     <button
                       type="button"
@@ -262,11 +265,25 @@ function App() {
                       disabled={!solution || numberOfDisks >25}
                       className="flex-1 sm:flex-none px-4 sm:px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
                     >
-                      Reset Game
+                      Reset
                     </button>
                   </div>
                 </form>
               </div>
+
+              {/* Instructions */}
+              {numberOfDisks <= 10 && (
+                <div className="flex-shrink-0 mb-2 sm:mb-4">
+                  <p className="text-base sm:text-lg md:text-xl text-gray-800">
+                    <b>Instructions:</b>{' '}
+                    {solution ? (
+                      <>Select a disk by clicking a disk or source peg of your choice, then select the destination peg.</>
+                    ) : (
+                      <>Enter number of disks and click Generate.</>
+                    )}
+                  </p>
+                </div>
+              )}
 
               <div 
                 ref={gameboardRef}
@@ -290,7 +307,11 @@ function App() {
                       </p>
                       <p className="text-lg text-gray-700 mb-2 mt-4">
                         Time required: <span className="font-bold text-blue-600 text-xl">{formatTime(solution.totalSteps)}</span>
+                        <p className="text-sm text-gray-500 mt-4">
+                      Assumption: Each step takes 2 seconds.
                       </p>
+                      </p>
+                      
                       <p className="text-sm text-gray-500 mt-4">
                         For more than 10 disks, only the step count is provided.
                       </p>
@@ -313,6 +334,13 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Invalid Move Modal */}
+      <InvalidMoveModal
+        isOpen={showInvalidMoveModal}
+        onClose={() => setShowInvalidMoveModal(false)}
+        message={invalidMoveMessage}
+      />
     </div>
   );
 }
