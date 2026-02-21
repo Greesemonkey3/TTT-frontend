@@ -271,7 +271,6 @@ function App() {
                 </form>
               </div>
 
-              {/* Instructions */}
               {numberOfDisks <= 10 && (
                 <div className="flex-shrink-0 mb-2 sm:mb-4">
                   <p className="text-base sm:text-lg md:text-xl text-gray-800">
